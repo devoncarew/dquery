@@ -140,12 +140,17 @@ abstract class _DQuery<T/* extends EventTarget*/> implements DQuery<T> {
       handler(dqevent);
     };
     
-    forEach((EventTarget t) => _EventUtil.add(t, types, h, selector));
+    for (EventTarget t in iterator) {
+      _EventUtil.add(t, types, h, selector);
+    }
   }
   
   @override
-  void off(String types, {String selector, DQueryEventListener handler}) =>
-      forEach((EventTarget t) => _EventUtil.remove(t, types, handler, selector));
+  void off(String types, {String selector, DQueryEventListener handler}) {
+    for (EventTarget t in iterator) {
+      _EventUtil.remove(t, types, handler, selector);
+    }
+  }
   
   // utility refactored from off() to make type clearer
   static void _offEvent(DQueryEvent dqevent) {
@@ -157,12 +162,18 @@ abstract class _DQuery<T/* extends EventTarget*/> implements DQuery<T> {
   }
   
   @override
-  void trigger(String type, {data}) =>
-      forEach((EventTarget t) => _EventUtil.trigger(type, data, t));
+  void trigger(String type, {data}) {
+    for (EventTarget t in iterator) {
+      _EventUtil.trigger(type, data, t);
+    }
+  }
   
   @override
-  void triggerEvent(DQueryEvent event) =>
-      forEach((EventTarget t) => _EventUtil.triggerEvent(event.._target = t));
+  void triggerEvent(DQueryEvent event) {
+    for (EventTarget t in iterator) {
+      _EventUtil.triggerEvent(event.._target = t);
+    }
+  }
   
   @override
   void triggerHandler(String type, {data}) {
